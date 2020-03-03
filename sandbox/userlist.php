@@ -1,12 +1,7 @@
 <?php
-	echo '<h5>taskadd</h5>';
+	echo '<h5>userlist</h5>';
 	$json = array(
-		"__action" => "taskadd",
-		"data" => array(
-			"name" => "test",
-			"assignee" => "0",
-			"status" => "new",
-		)
+		"__action" => "userlist",
 	);
 	$json = json_encode($json);
 ?>

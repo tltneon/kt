@@ -1,17 +1,22 @@
 <?php
+	include("./api/sql.class.php");
+	
 	echo '<h5>tasklist</h5>';
-	$json = array(
-		"action" => "tasklist",
-	);
-	$json = json_encode($json);
-?>
-<form action="api.php" method="post">
-	<textarea name="data"><?php echo $json; ?></textarea>
-	<input type="submit" value="submit" />
-</form>
-<style>
-	textarea {
-		height: 250px;
-		width: 550px;
+	echo '<a href="?page=taskadd'.(isset($_GET["mode"]) ? "&mode" : "").'">taskadd</a>';
+	
+	$list = task::getList();
+	
+	echo '<table>';
+	
+	foreach($list as $item){
+		echo '<tr>';
+		foreach($item as $field){
+			echo '<td>'.$field.'</td>';
+		}
+		echo '<td><a href="?page=task&id='.$item[0].'">Task</a></td>';
+		echo '</tr>';
 	}
-</style>
+	
+	echo '</table>';
+	echo '<div>Total: '.count($list).'</div>'
+?>

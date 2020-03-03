@@ -2,24 +2,22 @@
 	require("sql.class.php");
 	require("util.class.php");
 	
-	$data = isset($_POST["data"]) ? json_decode($_POST["data"], true) : null;
+	$data = isset($_POST["__action"]) ? $_POST["__action"] : null;
 	
-	print_r($_POST["data"]);
+	if(!$data) throwError('No action received');
 	
-	if(!$data) throwError('Wrong data received');
+	//check authorize somewhere
 	
-	//check authorize
-	//checkin valid data
-	switch($data["action"]){
+	switch($data["__action"]){
 		case "taskadd":
 			$sql = jsonToSql($data["data"]);
-			print_r("INSERT INTO `tasks`(".$sql["keys"].") VALUES (".$sql["values"].");");
+			//print_r("INSERT INTO `tasks`(".$sql["keys"].") VALUES (".$sql["values"].");");
 			$result = task::add($sql["keys"], $sql["values"]);
 		break;
 		case "taskremove": 
 			if(!$data["data"]["id"]) throwError('Wrong id received');
 			$id = (int) $data["data"]["id"];
-			$result = DB::query("DELETE FROM tasks WHERE id = ".$id.";");
+			$result = task::remove($id);
 		break;
 		case "taskedit":
 			if(!$data["data"]["id"]) throwError('Wrong id received');
@@ -34,10 +32,12 @@
 		break;
 		case "useradd":
 			$sql = jsonToSql($data["data"]);
-			print_r("INSERT INTO `users`(".$sql["keys"].") VALUES (".$sql["values"].");");
+			//print_r("INSERT INTO `users`(".$sql["keys"].") VALUES (".$sql["values"].");");
 			$result = user::add($sql["keys"], $sql["values"]);
 		break;
-		default: die("{'status': 0, 'message': 'Wrong action received'}"); break;
+		default: 
+			throwError('Wrong action received');
+		break;
 	}
 	
 	$json = array(

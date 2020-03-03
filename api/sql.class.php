@@ -23,10 +23,18 @@
 		public static function add($keys, $values){
 			return DB::query("INSERT INTO `tasks`(".$keys.") VALUES (".$values.");");
 		}
-		public function remove(){}
-		public function changeStatus(){}
-		public function changeUser(){}
-		public function edit(){}
+		public static function remove($id){
+			return DB::query("DELETE FROM tasks WHERE id = ".$id.";");
+		}
+		public static function changeStatus($taskid, $status){
+			return DB::query("UPDATE `tasks` SET `status`='".$userid."' WHERE `id`=".$taskid.";");
+		}
+		public static function changeAssignee($taskid, $userid){
+			return DB::query("UPDATE `tasks` SET `assignee`=".$userid." WHERE `id`=".$taskid.";");
+		}
+		public static function edit($taskid, $name){
+			return DB::query("UPDATE `tasks` SET `name`='".$name."' WHERE `id`=".$taskid.";");
+		}
 		public static function getList(){
 			$result = DB::query("SELECT * FROM tasks;");
 			return mysqli_fetch_all($result);
@@ -37,7 +45,7 @@
 			return DB::query("INSERT INTO `users`(".$keys.") VALUES (".$values.");");
 		}
 		public static function getList(){
-			$result = DB::query("SELECT * FROM tasks;");
+			$result = DB::query("SELECT * FROM users;");
 			return mysqli_fetch_all($result);
 		}
 	}
