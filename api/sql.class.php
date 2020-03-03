@@ -19,16 +19,26 @@
 		}
 		
 	}
-	class task{
-		function make(){}
-		function remove(){}
-		function changeStatus(){}
-		function changeUser(){}
-		function edit(){}
-		function getList(){}
+	class task {
+		public static function add($keys, $values){
+			return DB::query("INSERT INTO `tasks`(".$keys.") VALUES (".$values.");");
+		}
+		public function remove(){}
+		public function changeStatus(){}
+		public function changeUser(){}
+		public function edit(){}
+		public static function getList(){
+			$result = DB::query("SELECT * FROM tasks;");
+			return mysqli_fetch_all($result);
+		}
 	}
-	class user{
-		function add(){}
-		function getList(){}
+	class user {
+		public static function add($keys, $values){
+			return DB::query("INSERT INTO `users`(".$keys.") VALUES (".$values.");");
+		}
+		public static function getList(){
+			$result = DB::query("SELECT * FROM tasks;");
+			return mysqli_fetch_all($result);
+		}
 	}
 ?>

@@ -1,44 +1,48 @@
 <?php
 	require("sql.class.php");
+	require("util.class.php");
 	
 	$data = isset($_POST["data"]) ? json_decode($_POST["data"], true) : null;
 	
 	print_r($_POST["data"]);
-	print_r($data);
 	
-	if(!$data) die("{'status': 0, 'message': 'Wrong data received'}");
+	if(!$data) throwError('Wrong data received');
 	
 	//check authorize
 	//checkin valid data
 	switch($data["action"]){
 		case "taskadd":
-			$result = DB::query("SELECT * FROM tasks;");
+			$sql = jsonToSql($data["data"]);
+			print_r("INSERT INTO `tasks`(".$sql["keys"].") VALUES (".$sql["values"].");");
+			$result = task::add($sql["keys"], $sql["values"]);
 		break;
 		case "taskremove": 
-			$entry = int($data["entry"]);
-			$result = DB::query("DELETE FROM tasks WHERE id = ".$entry.";");
+			if(!$data["data"]["id"]) throwError('Wrong id received');
+			$id = (int) $data["data"]["id"];
+			$result = DB::query("DELETE FROM tasks WHERE id = ".$id.";");
 		break;
 		case "taskedit":
+			if(!$data["data"]["id"]) throwError('Wrong id received');
+			$id = (int) $data["data"]["id"];
 
 		break;
+		case "tasklist":
+			$result = task::getList();
+		break;
 		case "userlist":
-			$result = DB::query("SELECT * FROM users;");
+			$result = user::getList();
 		break;
 		case "useradd":
-			$result = DB::query("SELECT * FROM users;");
-		break;
-		case "useredit":
-		
+			$sql = jsonToSql($data["data"]);
+			print_r("INSERT INTO `users`(".$sql["keys"].") VALUES (".$sql["values"].");");
+			$result = user::add($sql["keys"], $sql["values"]);
 		break;
 		default: die("{'status': 0, 'message': 'Wrong action received'}"); break;
-		
 	}
-			print_r($result);
-			print_r(mysqli_fetch_array($result));
 	
 	$json = array(
 		"status" => 1,
-		"result" => mysqli_fetch_array($result)
+		"result" => $result
 	);
-	echo 'JSON:' . json_encode($json, true);
+	echo '<br />Result JSON:' . json_encode($json, true);
 ?>
