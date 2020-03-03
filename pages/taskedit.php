@@ -1,0 +1,20 @@
+<?php
+	echo '<h5>taskedit</h5>';
+	$json = array(
+		"action" => "taskremove",
+		"data" => array(
+			"id" => "1",
+		)
+	);
+	$json = json_encode($json);
+?>
+<form action="api.php" method="post">
+	<textarea name="data"><?php echo $json; ?></textarea>
+	<input type="submit" value="submit" />
+</form>
+<style>
+	textarea {
+		height: 250px;
+		width: 550px;
+	}
+</style>
