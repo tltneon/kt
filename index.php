@@ -2,7 +2,6 @@
 	<h5>Menu</h5>
 	<a href="?page=userlist<?php echo (isset($_GET["mode"]) ? "&mode" : ""); ?>" >userlist</a>
 	<a href="?page=tasklist<?php echo (isset($_GET["mode"]) ? "&mode" : ""); ?>" >tasklist</a>
-	<a href="?<?php echo (!isset($_GET["mode"]) ? "mode" : ""); ?>" >toggle sandbox</a>
 </div>
 
 <?php

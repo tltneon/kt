@@ -20,14 +20,19 @@
 		
 	}
 	class task {
-		public static function add($keys, $values){
-			return DB::query("INSERT INTO `tasks`(".$keys.") VALUES (".$values.");");
+		public static function get($id){
+			$result = DB::query("SELECT * FROM tasks WHERE id = ".$id.";");
+			return mysqli_fetch_assoc($result);
+		}
+		public static function add($name){
+			return DB::query("INSERT INTO `tasks`(name, assignee, status) VALUES ('".$name."', 0, 'new');");
+			//return DB::query("INSERT INTO `tasks`(".$keys.") VALUES (".$values.");");
 		}
 		public static function remove($id){
 			return DB::query("DELETE FROM tasks WHERE id = ".$id.";");
 		}
 		public static function changeStatus($taskid, $status){
-			return DB::query("UPDATE `tasks` SET `status`='".$userid."' WHERE `id`=".$taskid.";");
+			return DB::query("UPDATE `tasks` SET `status`='".$status."' WHERE `id`=".$taskid.";");
 		}
 		public static function changeAssignee($taskid, $userid){
 			return DB::query("UPDATE `tasks` SET `assignee`=".$userid." WHERE `id`=".$taskid.";");
@@ -41,8 +46,9 @@
 		}
 	}
 	class user {
-		public static function add($keys, $values){
-			return DB::query("INSERT INTO `users`(".$keys.") VALUES (".$values.");");
+		public static function add($name){
+			return DB::query("INSERT INTO `users`(name) VALUES ('".$name."');");
+			//return DB::query("INSERT INTO `users`(".$keys.") VALUES (".$values.");");
 		}
 		public static function getList(){
 			$result = DB::query("SELECT * FROM users;");

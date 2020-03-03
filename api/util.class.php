@@ -21,4 +21,8 @@
 				"values" => $values
 			);
 	}
+	
+	function removeChars($str) {
+    return preg_replace("/[^a-zA-Z0-9\s-]/", "", $str);
+	}
 ?>
